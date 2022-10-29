@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 
-const readStream = fs.createReadStream( path.join(__dirname, 'text.txt'), 'utf-8');
+const readStream = fs.createReadStream(path.join(__dirname, 'text.txt'), 'utf-8');
 
 let text = '';
 
