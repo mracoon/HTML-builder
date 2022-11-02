@@ -1,13 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
-
+const { stdin, stdout, exit } = require('process');
 const newFilePath = path.join(__dirname, 'text.txt');
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
+const rl = readline.createInterface(stdin, stdout);
 
 function writeMessageToFile(message) {
   fs.appendFile(newFilePath, `${message}\n`, (err) => { if (err) throw err; });
@@ -19,15 +16,15 @@ function endSession() {
 
 fs.writeFile(newFilePath, '', (err) => { if (err) throw err; });
 
-rl.question('Enter message:\n', (message) => {
-  writeMessageToFile(message);
-  rl.on('line', (mes) => {
-    if (mes === 'exit') {
-      rl.close();
-    } else {
-      writeMessageToFile(mes);
-    }
-  });
-  rl.on('close', endSession);
-});
+console.log('Enter message:');
 
+rl.on('close', endSession);
+
+rl.on('line', (mes) => {
+  if (mes === 'exit') {
+    endSession();
+    exit();
+  } else {
+    writeMessageToFile(mes);
+  }
+});
